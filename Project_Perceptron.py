@@ -196,7 +196,7 @@ def accuracy_per_category(test_labels, predicted, label_names):
           accuracy = 100 * class_correct[i] / class_total[i]
         else:
             accuracy = 0
-        print(f"Κατηγορία: {label_names[i]:5s} | Σωστά: {class_correct[i]:<3} / {class_total[i]:<3} | Ακρίβεια: {accuracy:.2f}%")
+        print(f"Κατηγορία: {label_names[i]:<10s} | Σωστά: {class_correct[i]:<3} / {class_total[i]:<3} | Ακρίβεια: {accuracy:.2f}%")
 
 accuracy_per_category(test_labels, predicted, label_names)
 
