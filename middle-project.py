@@ -1,7 +1,6 @@
 import pickle
 import time
 import numpy as np
-from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import NearestCentroid
@@ -41,49 +40,38 @@ def load_cifar10_data(folder_path):
     label_names = meta_data[b'label_names']
     label_names = [label.decode('utf-8') for label in label_names] # Μετατροπή των ετικετών από bytes σε string
 
-    # Μετατροπή σε μορφή PyTorch tensors
-    #train_data, train_labels = torch.tensor(train_data).float(), torch.tensor(train_labels)
-    #test_data, test_labels = torch.tensor(test_data).float(), torch.tensor(test_labels)
-
     sc = StandardScaler()
     train_data = sc.fit_transform(train_data)
     test_data = sc.transform(test_data)
 
-    pca = PCA(n_components=0.95)
-    train_data = pca.fit_transform(train_data)
-    test_data = pca.transform(test_data)
-
-    print("Αριθμός συνιστωσών που διατηρήθηκαν:", pca.n_components_)
-
     return train_data, train_labels, test_data, test_labels
-
 
 # Καθορισμός της διαδρομής του φακέλου
 folder_path = "C:/Users/gouti/Downloads/cifar-10-python/cifar-10-batches-py"
 train_data, train_labels, test_data, test_labels = load_cifar10_data(folder_path)
 
 end_time = time.time()
-print(f"Χρόνος εκτέλεσης για φορτώση των δεδομένων CIFAR-10 και εφαρμογή preprocessing (scaling, PCA) : {end_time - start_time:.2f} δευτερόλεπτα")
+print(f"Χρόνος εκτέλεσης για φορτώση των δεδομένων CIFAR-10 και εφαρμογή preprocessing (scaling) : {end_time - start_time:.2f} δευτερόλεπτα")
 
 # Υλοποίηση k-NN classifier
-def knn_predict(train_data, train_labels, test_images, k):
+def knn_predict(train_data, train_labels, test_images, name, k):
     classifier = KNeighborsClassifier(n_neighbors=k)
     start_time = time.time()
     classifier.fit(train_data, train_labels)
     predictions = classifier.predict(test_images)
     end_time = time.time()
-    print(f"Χρόνος εκτέλεσης για k-NN με k={k}: {end_time - start_time:.2f} δευτερόλεπτα")
+    print(f"Χρόνος εκτέλεσης για k-NN με k={k} στο {name} set: {end_time - start_time:.2f} δευτερόλεπτα")
 
     return predictions
 
 # Υλοποίηση NCC classifier
-def nearest_centroid_predict(train_data, train_labels, test_images):
+def nearest_centroid_predict(train_data, train_labels, test_images, name):
     classifier = NearestCentroid()
     start_time = time.time()
     classifier.fit(train_data, train_labels)
     predictions = classifier.predict(test_images)
     end_time = time.time()
-    print(f"Χρόνος εκτέλεσης για Nearest Centroid Classifier: {end_time - start_time:.2f} δευτερόλεπτα")
+    print(f"Χρόνος εκτέλεσης για Nearest Centroid Classifier στο {name} set: {end_time - start_time:.2f} δευτερόλεπτα")
 
     return predictions
 
@@ -93,23 +81,23 @@ def accuracy(predictions, labels):
 
 
 # Υπολογισμός ακρίβειας για k-NN με k=1 και k=3 στο test set
-knn_predictions_k1 = knn_predict(train_data, train_labels, test_data, k=1)
-knn_predictions_k3 = knn_predict(train_data, train_labels, test_data, k=3)
+knn_predictions_k1 = knn_predict(train_data, train_labels, test_data, "Test", k=1)
+knn_predictions_k3 = knn_predict(train_data, train_labels, test_data, "Test", k=3)
 accuracy_knn_k1 = accuracy(knn_predictions_k1, test_labels)
 accuracy_knn_k3 = accuracy(knn_predictions_k3, test_labels)
 
 # Υπολογισμός ακρίβειας για k-NN με k=1 και k=3 στο training set
-knn_train_predictions_k1 = knn_predict(train_data, train_labels, train_data, k=1)
-knn_train_predictions_k3 = knn_predict(train_data, train_labels, train_data, k=3)
+knn_train_predictions_k1 = knn_predict(train_data, train_labels, train_data, "Training", k=1)
+knn_train_predictions_k3 = knn_predict(train_data, train_labels, train_data, "Training", k=3)
 accuracy_knn_train_k1 = accuracy(knn_train_predictions_k1, train_labels)
 accuracy_knn_train_k3 = accuracy(knn_train_predictions_k3, train_labels)
 
 # Υπολογισμός ακρίβειας για τον NCC classifier στο test set
-nearest_centroid_predictions = nearest_centroid_predict(train_data, train_labels, test_data)
+nearest_centroid_predictions = nearest_centroid_predict(train_data, train_labels, test_data, "Test")
 accuracy_nearest_centroid = accuracy(nearest_centroid_predictions, test_labels)
 
 # Υπολογισμός ακρίβειας για τον NCC classifier στο training set
-nearest_centroid_train_predictions = nearest_centroid_predict(train_data, train_labels, train_data)
+nearest_centroid_train_predictions = nearest_centroid_predict(train_data, train_labels, train_data, "Training")
 accuracy_nearest_centroid_train = accuracy(nearest_centroid_train_predictions, train_labels)
 
 print(f"Ακρίβεια k-NN με k=1 στο test set: {accuracy_knn_k1*100:.2f}%")
