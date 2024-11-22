@@ -63,7 +63,7 @@ folder_path = "C:/Users/gouti/Downloads/cifar-10-python/cifar-10-batches-py"
 train_data, train_labels, test_data, test_labels = load_cifar10_data(folder_path)
 
 end_time = time.time()
-print(f"Χρόνος εκτέλεσης για Nearest Centroid Classifier: {end_time - start_time:.2f} δευτερόλεπτα")
+print(f"Χρόνος εκτέλεσης για φορτώση των δεδομένων CIFAR-10 και εφαρμογή preprocessing (scaling, PCA) : {end_time - start_time:.2f} δευτερόλεπτα")
 
 # Υλοποίηση k-NN classifier
 def knn_predict(train_data, train_labels, test_images, k):
