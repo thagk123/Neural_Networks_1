@@ -68,22 +68,17 @@ train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 class MLP(nn.Module):
     def __init__(self):
         super(MLP, self).__init__()
-        self.fc1 = nn.Linear(300, 512)
-        self.fc2 = nn.Linear(512, 256)
-        self.fc3 = nn.Linear(256, 128)
-        self.fc4 = nn.Linear(128, 64)
-        self.fc5 = nn.Linear(64, 10)
+        self.fc1 = nn.Linear(300, 300)
+        self.fc2 = nn.Linear(300, 64)
+        self.fc3 = nn.Linear(64, 10)
         self.dropout = nn.Dropout(p=0.3)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
-        x = self.dropout(x)  # Dropout μετά το πρώτο επίπεδο
+        x = self.dropout(x)
         x = F.relu(self.fc2(x))
-        x = self.dropout(x)  # Dropout μετά το δεύτερο επίπεδο
-        x = F.relu(self.fc3(x))
-        x = self.dropout(x)  # Dropout μετά το τρίτο επίπεδο
-        x = F.relu(self.fc4(x))
-        x = self.fc5(x)  # Το τελικό επίπεδο χωρίς ReLU
+        x = self.dropout(x)
+        x = self.fc3(x)  # Το τελικό επίπεδο χωρίς ReLU
         return x
 
 
