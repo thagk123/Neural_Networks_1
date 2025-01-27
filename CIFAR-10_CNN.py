@@ -59,10 +59,10 @@ batch_size = 1024
 train_dataset = TensorDataset(train_data, train_labels)
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
-# Ορισμός του MLP μοντέλου
-class MLP(nn.Module):
+# Ορισμός του CNN μοντέλου
+class CNN(nn.Module):
     def __init__(self):
-        super(MLP, self).__init__()
+        super(CNN, self).__init__()
         self.conv1 = nn.Conv2d(3, 6, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
@@ -80,7 +80,7 @@ class MLP(nn.Module):
         return x
 
 
-model = MLP()
+model = CNN()
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-3)
