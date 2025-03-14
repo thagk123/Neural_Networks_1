@@ -37,7 +37,9 @@ def load_cifar10_data(folder_path):
     # Φόρτωση των metadata για τα labels
     meta_data = unpickle(f"{folder_path}/batches.meta")
     label_names = meta_data[b'label_names']
-    label_names = [label.decode('utf-8') for label in label_names]  # Μετατροπή των ετικετών από bytes σε string
+    
+    # Μετατροπή των ετικετών από bytes σε string
+    label_names = [label.decode('utf-8') for label in label_names]
 
     # Τυποποίηση δεδομένων
     sc = StandardScaler()
@@ -118,7 +120,9 @@ for epoch in range(num_epochs):
     # Ελέγχουμε αν το learning rate άλλαξε
     current_lr = optimizer.param_groups[0]['lr']
     if current_lr != prev_lr:
-        print(f"Το learning rate άλλαξε από {prev_lr:.6f} σε {current_lr:.6f} στο τέλος της εποχής {epoch}")
+        print(
+            f"Το learning rate άλλαξε από {prev_lr:.6f} σε {current_lr:.6f} στο τέλος της εποχής {epoch}"
+        )
         prev_lr = current_lr
 
     if (epoch + 1) <= 20 or (epoch + 1) % 50 == 0:
