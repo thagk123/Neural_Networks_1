@@ -1,4 +1,6 @@
+""" Module providing functions for object serialization and deserialization using pickle """
 import pickle
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
