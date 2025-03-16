@@ -231,3 +231,4 @@ with torch.no_grad():
 
 # Εκτύπωση του αποτελέσματος
 print(f"Η εικόνα ταξινομήθηκε ως: {label_names[predicted]}")
+# End-of-file (EOF)
