@@ -79,6 +79,7 @@ train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
 # Ορισμός του CNN μοντέλου
 class CNN(nn.Module):
+    """ Class representing a CNN model"""
     def __init__(self):
         super().__init__()
         self.conv1 = nn.Conv2d(3, 32, 3)
