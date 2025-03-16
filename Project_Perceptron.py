@@ -11,6 +11,11 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader, TensorDataset
 import matplotlib.pyplot as plt
 
+
+
+
+
+
 # Συνάρτηση για αποσειριοποίηση
 def unpickle(file):
     with open(file, 'rb') as fo:
@@ -37,9 +42,7 @@ def load_cifar10_data(folder_path):
     # Φόρτωση των metadata για τα labels
     meta_data = unpickle(f"{folder_path}/batches.meta")
     label_names = meta_data[b'label_names']
-    
-    # Μετατροπή των ετικετών από bytes σε string
-    label_names = [label.decode('utf-8') for label in label_names]
+    label_names = [label.decode('utf-8') for label in label_names]  # Μετατροπή των ετικετών από bytes σε string
 
     # Τυποποίηση δεδομένων
     sc = StandardScaler()
@@ -62,14 +65,14 @@ folder_path = "C:/Users/gouti/Downloads/cifar-10-python/cifar-10-batches-py"
 train_data, train_labels, test_data, test_labels, label_names = load_cifar10_data(folder_path)
 
 # Δημιουργία DataLoader με batch size
-batch_size = 1024  # Μεγαλύτερο batch size για σταθερά gradients
+batch_size = 1024
 train_dataset = TensorDataset(train_data, train_labels)
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
 # Ορισμός του MLP μοντέλου
 class MLP(nn.Module):
     def __init__(self):
-        super(MLP, self).__init__()
+        super().__init__()
         self.fc1 = nn.Linear(300, 300)
         self.fc2 = nn.Linear(300, 64)
         self.fc3 = nn.Linear(64, 10)
@@ -120,9 +123,7 @@ for epoch in range(num_epochs):
     # Ελέγχουμε αν το learning rate άλλαξε
     current_lr = optimizer.param_groups[0]['lr']
     if current_lr != prev_lr:
-        print(
-            f"Το learning rate άλλαξε από {prev_lr:.6f} σε {current_lr:.6f} στο τέλος της εποχής {epoch}"
-        )
+        print(f"Το learning rate άλλαξε από {prev_lr:.6f} σε {current_lr:.6f} στο τέλος της εποχής {epoch}")
         prev_lr = current_lr
 
     if (epoch + 1) <= 20 or (epoch + 1) % 50 == 0:
