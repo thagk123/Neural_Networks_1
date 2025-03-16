@@ -11,11 +11,6 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader, TensorDataset
 import matplotlib.pyplot as plt
 
-
-
-
-
-
 # Συνάρτηση για αποσειριοποίηση
 def unpickle(file):
     with open(file, 'rb') as fo:
