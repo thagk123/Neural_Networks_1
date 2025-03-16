@@ -66,6 +66,7 @@ train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
 # Ορισμός του MLP μοντέλου
 class MLP(nn.Module):
+    """ Class representing a multi-layer perceptron"""
     def __init__(self):
         super().__init__()
         self.fc1 = nn.Linear(300, 300)
