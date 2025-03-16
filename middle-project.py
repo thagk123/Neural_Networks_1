@@ -44,6 +44,7 @@ def load_cifar10_data(folder_path):
     train_data = sc.fit_transform(train_data)
     test_data = sc.transform(test_data)
 
+
     return train_data, train_labels, test_data, test_labels
 
 # Καθορισμός της διαδρομής του φακέλου
