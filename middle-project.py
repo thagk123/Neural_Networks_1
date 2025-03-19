@@ -26,7 +26,9 @@ def load_cifar10_data(folder_path):
         if train_data is None:
             train_data = batch_data
         else:
-            train_data = np.concatenate((train_data, batch_data), axis=0) #Συγχώνευση του επόμενου batch στον τελικό πίνακα
+            train_data = np.concatenate(
+                (train_data, batch_data), axis=0
+            ) #Συγχώνευση του επόμενου batch στον τελικό πίνακα
         batch_labels=batch[b'labels']
         for k in batch_labels:
             train_labels.append(k) #Προσθήκη των labels του επόμενου batch στον τελική λίστα
@@ -39,7 +41,9 @@ def load_cifar10_data(folder_path):
     # Φόρτωση των metadata για τα labels
     meta_data = unpickle(f"{folder_path}/batches.meta")
     label_names = meta_data[b'label_names']
-    label_names = [label.decode('utf-8') for label in label_names] # Μετατροπή των ετικετών από bytes σε string
+    label_names = [
+        label.decode('utf-8') for label in label_names
+    ] # Μετατροπή των ετικετών από bytes σε string
 
     sc = StandardScaler()
     train_data = sc.fit_transform(train_data)
@@ -53,7 +57,11 @@ folder_path = "C:/Users/gouti/Downloads/cifar-10-python/cifar-10-batches-py"
 train_data, train_labels, test_data, test_labels = load_cifar10_data(folder_path)
 
 end_time = time.time()
-print(f"Χρόνος εκτέλεσης για φορτώση των δεδομένων CIFAR-10 και εφαρμογή preprocessing (scaling) : {end_time - start_time:.2f} δευτερόλεπτα")
+print(
+    f"Χρόνος εκτέλεσης για φορτώση των δεδομένων CIFAR-10 "
+    f"και εφαρμογή preprocessing (scaling): {end_time - start_time:.2f} δευτερόλεπτα"
+)
+
 
 classifier_1 = KNeighborsClassifier(n_neighbors=1)
 classifier_2 = KNeighborsClassifier(n_neighbors=3)
@@ -65,7 +73,11 @@ def train_func(classifier, data, labels, k):
     classifier.fit(data, labels)
     end_time = time.time()
     if k==0:
-        print(f"Χρόνος εκπαίδευσης για Nearest Centroid Classifier: {end_time - start_time:.2f} δευτερόλεπτα")
+        print(
+            f"Χρόνος εκπαίδευσης για Nearest Centroid Classifier: "
+            f"{end_time - start_time:.2f} δευτερόλεπτα"
+        )
+
     else:
         print(f"Χρόνος εκπαίδευσης για k-NN με k={k}: {end_time - start_time:.2f} δευτερόλεπτα")
 
@@ -76,10 +88,16 @@ def predict_func(classifier, data, name, k):
     start_time = time.time()
     predictions = classifier.predict(data)
     end_time = time.time()
-    if k==0:
-        print(f"Χρόνος πρόβλεψης για Nearest Centroid Classifier στο {name} set: {end_time - start_time:.2f} δευτερόλεπτα")
+    if k == 0:
+        print(
+            f"Χρόνος πρόβλεψης για Nearest Centroid Classifier στο {name} set: "
+            f"{end_time - start_time:.2f} δευτερόλεπτα"
+        )
     else:
-        print(f"Χρόνος πρόβλεψης για k-NN με k={k} στο {name} set: {end_time - start_time:.2f} δευτερόλεπτα")
+        print(
+            f"Χρόνος πρόβλεψης για k-NN με k={k} στο {name} set: "
+            f"{end_time - start_time:.2f} δευτερόλεπτα"
+        )
 
     return predictions
 

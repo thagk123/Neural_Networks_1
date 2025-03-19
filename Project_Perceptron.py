@@ -41,7 +41,9 @@ def load_cifar10_data(folder_path):
     # Φόρτωση των metadata για τα labels
     meta_data = unpickle(f"{folder_path}/batches.meta")
     label_names = meta_data[b'label_names']
-    label_names = [label.decode('utf-8') for label in label_names]  # Μετατροπή των ετικετών από bytes σε string
+    label_names = [
+        label.decode('utf-8') for label in label_names
+    ]  # Μετατροπή των ετικετών από bytes σε string
 
     # Τυποποίηση δεδομένων
     sc = StandardScaler()
@@ -123,7 +125,10 @@ for epoch in range(num_epochs):
     # Ελέγχουμε αν το learning rate άλλαξε
     current_lr = optimizer.param_groups[0]['lr']
     if current_lr != prev_lr:
-        print(f"Το learning rate άλλαξε από {prev_lr:.6f} σε {current_lr:.6f} στο τέλος της εποχής {epoch}")
+        print(
+            f"Το learning rate άλλαξε από {prev_lr:.6f} σε {current_lr:.6f} "
+            f"στο τέλος της εποχής {epoch}"
+        )
         prev_lr = current_lr
 
     if (epoch + 1) <= 20 or (epoch + 1) % 50 == 0:
@@ -196,7 +201,11 @@ def accuracy_per_category(test_labels, predicted, label_names):
             accuracy = 100 * class_correct[i] / class_total[i]
         else:
             accuracy = 0
-        print(f"Κατηγορία: {label_names[i]:<10s} | Σωστά: {class_correct[i]:<3} / {class_total[i]:<3} | Ακρίβεια: {accuracy:.2f}%")
+        print(
+            f"Κατηγορία: {label_names[i]:<10s} | "
+            f"Σωστά: {class_correct[i]:<3} / {class_total[i]:<3} | "
+            f"Ακρίβεια: {accuracy:.2f}%"
+        )
 
 accuracy_per_category(test_labels, predicted, label_names)
 
@@ -215,7 +224,10 @@ for i in range(10000):
 def print_examples(examples, label):
     print(f"\nΧαρακτηριστικά {label} Κατηγοριοποιημένα Δείγματα:")
     for idx, true_label, predicted_label in examples[:10]:  # Εμφάνιση των 10 πρώτων
-        print(f"Δείγμα {idx}: Πραγματική Ετικέτα = {true_label}, Προβλεπόμενη Ετικέτα = {predicted_label}")
+        print(
+            f"Δείγμα {idx}: Πραγματική Ετικέτα = {true_label}, "
+            f"Προβλεπόμενη Ετικέτα = {predicted_label}"
+        )
 
 print_examples(correct_examples, "Σωστά")
 print_examples(incorrect_examples, "Εσφαλμένα")
