@@ -119,3 +119,4 @@ print(f"Ακρίβεια k-NN με k=1 στο training set: {accuracy_knn_train_
 print(f"Ακρίβεια k-NN με k=3 στο training set: {accuracy_knn_train_k3*100:.2f}%")
 print(f"Ακρίβεια NCC στο test set: {accuracy_nearest_centroid*100:.2f}%")
 print(f"Ακρίβεια NCC στο training set: {accuracy_nearest_centroid_train*100:.2f}%")
+# End-of-file (EOF)
