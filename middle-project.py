@@ -20,15 +20,15 @@ def load_cifar10_data(folder_path):
     train_data = None
     train_labels = []
     for i in range(1, 6):
-       batch = unpickle(f"{folder_path}/data_batch_{i}")
-       batch_data=batch[b'data']
-       if train_data is None:
-           train_data = batch_data
-       else:
-           train_data = np.concatenate((train_data, batch_data), axis=0) #Συγχώνευση του επόμενου batch στον τελικό πίνακα
-       batch_labels=batch[b'labels']
-       for k in batch_labels:
-           train_labels.append(k) #Προσθήκη των labels του επόμενου batch στον τελική λίστα
+        batch = unpickle(f"{folder_path}/data_batch_{i}")
+        batch_data=batch[b'data']
+        if train_data is None:
+            train_data = batch_data
+        else:
+            train_data = np.concatenate((train_data, batch_data), axis=0) #Συγχώνευση του επόμενου batch στον τελικό πίνακα
+        batch_labels=batch[b'labels']
+        for k in batch_labels:
+            train_labels.append(k) #Προσθήκη των labels του επόμενου batch στον τελική λίστα
 
     # Φόρτωση των δεδομένων ελέγχου
     test_batch = unpickle(f"{folder_path}/test_batch")

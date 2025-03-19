@@ -25,37 +25,37 @@ def unpickle(file):
 
 # Συνάρτηση για τη φόρτωση της CIFAR-10
 def load_cifar10_data(folder_path, image):
-   train_data = None
-   train_labels = []
-   for i in range(1, 6):
-       batch = unpickle(f"{folder_path}/data_batch_{i}")
-       batch_data = batch[b'data']
-       if train_data is None:
-           train_data = batch_data
-       else:
-           train_data = np.concatenate((train_data, batch_data), axis=0)
-       train_labels.extend(batch[b'labels'])
+    train_data = None
+    train_labels = []
+    for i in range(1, 6):
+        batch = unpickle(f"{folder_path}/data_batch_{i}")
+        batch_data = batch[b'data']
+        if train_data is None:
+            train_data = batch_data
+        else:
+            train_data = np.concatenate((train_data, batch_data), axis=0)
+        train_labels.extend(batch[b'labels'])
 
-   test_batch = unpickle(f"{folder_path}/test_batch")
-   test_data = test_batch[b'data']
-   test_labels = test_batch[b'labels']
+    test_batch = unpickle(f"{folder_path}/test_batch")
+    test_data = test_batch[b'data']
+    test_labels = test_batch[b'labels']
 
-   # Φόρτωση των metadata για τα labels
-   meta_data = unpickle(f"{folder_path}/batches.meta")
-   label_names = meta_data[b'label_names']
-   label_names = [label.decode('utf-8') for label in label_names]  # Μετατροπή των ετικετών από bytes σε string
+    # Φόρτωση των metadata για τα labels
+    meta_data = unpickle(f"{folder_path}/batches.meta")
+    label_names = meta_data[b'label_names']
+    label_names = [label.decode('utf-8') for label in label_names]  # Μετατροπή των ετικετών από bytes σε string
 
-   # Τυποποίηση δεδομένων
-   sc = MinMaxScaler(feature_range=(0, 1))
-   train_data = sc.fit_transform(train_data)
-   test_data = sc.transform(test_data)
-   image = sc.transform(image.view(-1, 3072))
+    # Τυποποίηση δεδομένων
+    sc = MinMaxScaler(feature_range=(0, 1))
+    train_data = sc.fit_transform(train_data)
+    test_data = sc.transform(test_data)
+    image = sc.transform(image.view(-1, 3072))
 
-   train_data, train_labels = torch.tensor(train_data).float(), torch.tensor(train_labels)
-   test_data, test_labels = torch.tensor(test_data).float(), torch.tensor(test_labels)
-   image = torch.tensor(image).float()
+    train_data, train_labels = torch.tensor(train_data).float(), torch.tensor(train_labels)
+    test_data, test_labels = torch.tensor(test_data).float(), torch.tensor(test_labels)
+    image = torch.tensor(image).float()
 
-   return train_data, train_labels, test_data, test_labels, label_names, image
+    return train_data, train_labels, test_data, test_labels, label_names, image
 
 
 # Καθορισμός της διαδρομής του φακέλου
@@ -219,7 +219,7 @@ def accuracy_per_category(test_labels, predicted, label_names):
 
     for i in range(10):
         if class_total[i] > 0:
-          accuracy = 100 * class_correct[i] / class_total[i]
+            accuracy = 100 * class_correct[i] / class_total[i]
         else:
             accuracy = 0
         print(f"Κατηγορία: {label_names[i]:<10s} | Σωστά: {class_correct[i]:<3} / {class_total[i]:<3} | Ακρίβεια: {accuracy:.2f}%")
