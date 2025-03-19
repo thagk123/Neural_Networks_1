@@ -141,8 +141,8 @@ for epoch in range(num_epochs):
         counter += 1
         if counter >= patience:
             if (epoch + 1) not in selected_epochs:
-              selected_epochs.append(epoch + 1)
-              selected_losses.append(avg_loss)
+                selected_epochs.append(epoch + 1)
+                selected_losses.append(avg_loss)
             print(f"Early stopping at epoch {epoch + 1}, Loss: {avg_loss:.4f}")
             break
 
