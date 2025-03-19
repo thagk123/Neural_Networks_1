@@ -17,10 +17,11 @@ from torchvision import transforms
 
 # Συνάρτηση για αποσειριοποίηση
 def unpickle(file):
-   """ Loads and returns a dictionary from a pickle file. """
-   with open(file, 'rb') as fo:
-       dict = pickle.load(fo, encoding='bytes')
-   return dict
+    """Loads and returns a dictionary from a pickle file."""
+    with open(file, 'rb') as fo:
+        data = pickle.load(fo, encoding='bytes')
+    return data
+
 
 # Συνάρτηση για τη φόρτωση της CIFAR-10
 def load_cifar10_data(folder_path, image):
