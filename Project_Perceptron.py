@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 
 # Συνάρτηση για αποσειριοποίηση
 def unpickle(file):
+    """ Loads and returns a dictionary from a pickle file. """
     with open(file, 'rb') as fo:
         dict = pickle.load(fo, encoding='bytes')
     return dict
@@ -66,7 +67,7 @@ train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
 # Ορισμός του MLP μοντέλου
 class MLP(nn.Module):
-    """ Class representing a multi-layer perceptron"""
+    """ Class representing a multi-layer perceptron """
     def __init__(self):
         super().__init__()
         self.fc1 = nn.Linear(300, 300)
